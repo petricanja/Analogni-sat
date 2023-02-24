@@ -1,0 +1,19 @@
+#naslov { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+
+} 
+
+body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-color: mintcream;
+    align-content: center;
+}
+
+canvas {
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 6px 6px 16px black, -6px -6px 16px rgba(10,10,10,1);
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Clock</title>
+</head>
+<body>
+    <div align="center">
+    
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        let canvasLength = 850;  
+        let radius = canvasLength / 2; 
+        let canvas = document.getElementById("canvas");
+        canvas.height = canvasLength;
+        canvas.width = canvasLength;
+        let ctx = canvas.getContext("2d");
+        ctx.font = `${0.1 * radius}px Georgia`;
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+
+        function drawHand(ctx, angleInDegrees, r) {
+            let a = r * Math.cos(angleInDegrees * Math.PI / 180);
+            let b = r * Math.sin(angleInDegrees * Math.PI / 180);
+            ctx.lineTo(a, b);
+        }
+
+        function drawClock() {
+
+           
+            ctx.clearRect(0, 0, canvasLength, canvasLength)
+
+          
+            ctx.beginPath()
+            ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.translate(radius, radius);
+
+           
+            for (let i = 1; i <= 12; i++) {
+                let x = radius * 0.9 * Math.cos(((i * 30 - 90) * Math.PI) / 180)
+                let y = radius * 0.9 * Math.sin(((i * 30 - 90) * Math.PI) / 180)
+                ctx.fillText(i, x, y);
+            }
+
+
+           
+            let currentTime = new Date();
+            let seconds = currentTime.getSeconds();
+            let minutes = currentTime.getMinutes();
+            let hours = currentTime.getHours();
+
+            let secondsDegrees = (seconds - 15) * 6;
+            let minutesDegrees = (minutes - 15) * 6;
+            let hoursDegrees = (hours - 3 + minutes / 60) * 30;
+
+            
+            ctx.beginPath();
+
+           
+            ctx.moveTo(0, 0);
+            drawHand(ctx, secondsDegrees, radius * 0.75); 
+
+          
+            ctx.moveTo(0, 0);
+            drawHand(ctx, minutesDegrees, radius * 0.85); 
+
+            ctx.moveTo(0, 0);
+            drawHand(ctx, hoursDegrees, radius * 0.6); 
+
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, 5, 0, 2 * Math.PI, false);
+            ctx.fill();
+            ctx.closePath();
+            ctx.translate(-radius, -radius)
+        }
+
+        window.onload = setInterval(drawClock, 1000);
+    </script>
+</body>
+
+</html>
